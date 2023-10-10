@@ -1,7 +1,9 @@
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.InputStreamReader;
 public class Practica3LeerArchivos_Gaby {
 
@@ -90,6 +92,37 @@ public class Practica3LeerArchivos_Gaby {
         return array;
     }
 
+    public static void writeFile(String name){
+            //Un apuntado a un espacio fisico del dd
+        FileWriter archivo;
+            //La llave de acceso para escribir el archivo
+        PrintWriter writer;
+        //Para escribir del teclado al dd
+        BufferedReader bufer=new BufferedReader(new InputStreamReader((System.in)));
+        String entrda;
+        char respuesta;
+
+        try {
+            //Apuntador al archivo que se va a crear
+            archivo=new FileWriter("C:\\Users\\Abraham\\Documents\\Games\\"+name+".txt");
+            //Abrir el archivo en modo para escribir
+            writer=new PrintWriter(archivo);
+            do{
+                System.out.println("Escribe lo que quieras: ");
+                entrda=bufer.readLine();
+                //Guardar lo recuperado desde el teclado
+                writer.println(entrda);
+                System.out.println("Escribe - para parar, cualquier otra letra para continnuar");
+                entrda= bufer.readLine();
+                respuesta=entrda.charAt(0);
+
+            }while(respuesta!='-');
+            archivo.close();
+        }catch (Exception e){
+            System.out.println("Error al escribir el archivo "+e.toString());
+        }
+    }
+
         public static void main(String[] args) throws IOException {
             BufferedReader bufer=new BufferedReader(new InputStreamReader(System.in));
             String fileName;
@@ -112,6 +145,10 @@ public class Practica3LeerArchivos_Gaby {
             for (int unNumero:numeros){
                 System.out.println(unNumero);
             }
+            System.out.println("Crear un archivo de texto");
+            System.out.println("Escribe el nombre del archivo: ");
+            fileName= bufer.readLine();
+            writeFile(fileName);
         }
 
 
