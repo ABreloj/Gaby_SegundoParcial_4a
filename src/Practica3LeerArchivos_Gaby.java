@@ -92,7 +92,7 @@ public class Practica3LeerArchivos_Gaby {
         return array;
     }
 
-    public static void writeFile(String name){
+    public static void writeKeyboardToFile(String name){
             //Un apuntado a un espacio fisico del dd
         FileWriter archivo;
             //La llave de acceso para escribir el archivo
@@ -123,11 +123,88 @@ public class Practica3LeerArchivos_Gaby {
         }
     }
 
+    public static boolean[] fileToBooleanArray(String name){
+        File archivo;
+        FileReader reader;
+        BufferedReader bufer;
+        String linea;
+        boolean[] array=null;
+        int t;
+        int i=0;
+
+        try{
+
+            t=countLines(name);
+
+            array=new boolean[t];
+            archivo=new File("C:\\Users\\Abraham\\Documents\\Games\\"+name+".txt");
+            reader=new FileReader(archivo);
+            bufer=new BufferedReader(reader);
+            while((linea=bufer.readLine())!=null){
+                array[i]=Boolean.parseBoolean(linea);
+                i++;
+            }
+            reader.close();
+        }catch(Exception e){
+            System.out.println("Error al leerl el achivo/documento :( "+e.toString());
+        }
+        return array;
+    }
+
+    public static double[] fileToDoubleArray(String name){
+        File archivo;
+        FileReader reader;
+        BufferedReader bufer;
+        String linea;
+        double[] array=null;
+        int t;
+        int i=0;
+
+        try{
+
+            t=countLines(name);
+
+            array=new double[t];
+            archivo=new File("C:\\Users\\Abraham\\Documents\\Games\\"+name+".txt");
+            reader=new FileReader(archivo);
+            bufer=new BufferedReader(reader);
+            while((linea=bufer.readLine())!=null){
+                array[i]=Double.parseDouble(linea);
+                i++;
+            }
+            reader.close();
+        }catch(Exception e){
+            System.out.println("Error al leerl el achivo/documento :( "+e.toString());
+        }
+        return array;
+    }
+
+    public static void writeArrayToFile(String name,int[] array){
+        FileWriter archivo;
+        PrintWriter writer;
+        try {
+            archivo=new FileWriter("C:\\Users\\Abraham\\Documents\\Games\\"+name+".txt");
+            writer=new PrintWriter(archivo);
+            //Guardar el arreglo a un archivo
+            for(int unDato:array){
+                writer.println(unDato);
+            }
+            archivo.close();
+        }catch (Exception e){
+            System.out.println("Error al escribir el archivo "+e.toString());
+        }
+    }
+
+
+
         public static void main(String[] args) throws IOException {
             BufferedReader bufer=new BufferedReader(new InputStreamReader(System.in));
             String fileName;
             String[]  videogames;
             int[] numeros;
+            boolean[] booleanos;
+            double[] doubles;
+            int[] numerosX3;
 
             System.out.println("Lextura de un archivo de texto");
             System.out.println("Escribe el nombre del archivo");
@@ -145,10 +222,38 @@ public class Practica3LeerArchivos_Gaby {
             for (int unNumero:numeros){
                 System.out.println(unNumero);
             }
-            System.out.println("Crear un archivo de texto");
-            System.out.println("Escribe el nombre del archivo: ");
+
+            //Crear y llenar el areglo numerosX3
+            numerosX3=new int[numeros.length];
+            for (int i=0;i<numeros.length;i++){
+                numerosX3[i]=numeros[i]*3;
+                System.out.println("Numeros por 3 ["+i+"]: "+numerosX3[i]);
+            }
+            System.out.println("Escribe el nombre del archivo de numerosX3: ");
             fileName= bufer.readLine();
-            writeFile(fileName);
+            writeArrayToFile(fileName,numerosX3);
+
+            //System.out.println("Crear un archivo de texto");
+            //System.out.println("Escribe el nombre del archivo: ");
+            //fileName= bufer.readLine();
+            //writeFile(fileName);
+
+            System.out.println("Lee un boolean");
+            System.out.println("Escribe el nombre del archivo: ");
+            fileName=bufer.readLine();
+            booleanos=fileToBooleanArray(fileName);
+            for (boolean unBoolean:booleanos){
+                System.out.println(unBoolean);
+            }
+
+            System.out.println("Lee un double");
+            System.out.println("Escribe el nombre del archivo: ");
+            fileName=bufer.readLine();
+            doubles=fileToDoubleArray(fileName);
+            for (double unDouble:doubles){
+                System.out.println(unDouble);
+            }
+
         }
 
 
